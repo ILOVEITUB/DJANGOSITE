@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'shopapp/css/style.css' %}">
+    <link rel="stylesheet" href="../../static/shopapp/css/index.css">
+    <title>{% block title %}
+      Base title
+    {% endblock %}</title>
+</head>
+<header style="background-color: #FFF4F4; border-radius: 40px">
+    {% block header %}
+    <div style="background-color: #F7FFE5;"class="header">
+        <div style="color: #0A6EBD;" class="logotype">Техно</div>
+        <div class="nav">
+            <a style="color: #0A6EBD;" class="home" href="{% url 'shopapp:index'%}">Главная</a>
+            <a style="color: #0A6EBD;" class="catalog" href="{% url 'shopapp:products-list'%}">Каталог </a>
+            <a style="color: #0A6EBD;" class="contacts" href="#cont">Контакты</a>
+            {% if user.is_authenticated %}
+                <a style="color: #0A6EBD;" class="profile" href="{% url 'shopapp:about-me'%}">Профиль</a>
+            {% else %}
+                <a style="color: #0A6EBD;" class="profile" href="{% url 'shopapp:register'%}">Зарегистрироваться</a>
+                <a style="color: #0A6EBD;" class="profile" href="{% url 'shopapp:login'%}">Войти в профиль</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a style="color: #0A6EBD;" class="cart" href="{% url 'shopapp:view_cart'%}">Корзина</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endblock %}
+</header>
+<body style="background-color: #F7FFE5;">
+
+{% block body %}
+  Base body
+{% endblock %}
+
+{% block footer %}
+  <div style="background-color: #F7FFE5; color: #0A6EBD;" id="cont" class="contacts_footer">
+    <h1>Контакты:</h1>
+    <p>tesa@gmail.com</p>
+    <p>Телефон: 8-111-145-15-11</p>
+    <p>Адресс: г.Артем ул.кирова 6</p>
+  </div>
+{% endblock %}
+</body>
+</html>

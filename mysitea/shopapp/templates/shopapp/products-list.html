@@ -1,0 +1,118 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}
+    Одежда
+{% endblock %}
+<link rel="stylesheet" href="../../static/shopapp/css/index.css">
+{% block body %}
+    <style>.card {
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-title {
+    margin: 0px;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .card-title a {
+    text-decoration: none;
+    color: #0A6EBD;
+  }
+
+  .card-title a:hover {
+    color: #2c3e50;
+  }
+
+  p {
+    margin: 10px;
+    text-align: center;
+    color: #555;
+    font-size: 16px;
+  }
+
+  img {
+    width: 400px;
+    height: 350px;
+    margin: 10px;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+
+  .price {
+    text-shadow: 1px 1px 2px white;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .views {
+    text-shadow: 1px 1px 2px white;
+    font-size: 16px;
+    font-style: italic;
+  }
+</style>
+    <div style="text-align: right; padding-right: 120px; padding-top: 20px;">
+        <form action="{% url 'shopapp:search' %}" method="GET">
+            <input type="search" type="text" name="q" placeholder="Поиск">
+            <button style="padding: 20px; border-radius: 20px; border: none; cursor: pointer; " type="submit" type="submit">Поиск</button>
+        </form>
+    </div>
+
+
+
+
+    <h1 style="text-align: center; color: #40128B; font-size: 40px;">Каталог </h1>
+     {% if products %}
+<div style="display: flex" class="div">
+    <button style="margin-right: 20px;padding: 20px; border-radius: 20px; border: none; cursor: pointer; "><a style="text-decoration: none" href="{% url 'shopapp:product-sorth' %}">По убыванию</a> </button>
+    <button style="padding: 20px; border-radius: 20px; border: none; cursor: pointer; "><a style="text-decoration: none" href="{% url 'shopapp:product-sortl' %}">По возрастанию</a> </button>
+        <form action="{% url 'shopapp:search' %}" method="GET">
+                <select type="search" type="text" name="q">
+                <option>Телефон</option>
+                    <option>Наушники</option>
+                </select>
+            <button style="padding: 20px; border-radius: 20px; border: none; cursor: pointer; " type="submit" type="submit">Поиск</button>
+        </form>
+
+</div>
+
+        <section class="section__main">
+    <div class="container">
+        {% for product in products %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"><a href="{% url 'shopapp:product_details' pk=product.pk %}">{{ product.name }}</a></h5>
+    <p>Описание: {{ product.description }}</p>
+    {% if product.preview %}
+      <img src="{{ product.preview.url }}" alt="{{ product.preview.name }}">
+    {% endif %}
+    <p class="price">Цена: {{ product.price }} руб.</p>
+    <p class="views">Просмотры: {{ product.views_count }} раз(-a)</p>
+  </div>
+</div>
+
+
+{% endfor %}
+        </div>
+
+
+    {% endif %}
+    {% if perms.shopapp.add_product %}
+
+        <div>
+            <a style="padding-left: 120px; text-decoration: none; color: #0A6EBD; font-size: 20px;" href="{% url 'shopapp:product-create'%}">Добавить товар</a>
+        </div>
+    {% endif %}
+{% endblock %}
